@@ -4,8 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-dentistry_backend-2e54dd30-ed2e-4cd4-bbfb-9fbfb8fd3d58</UserSecretsId>
-    <RootNamespace>dentistry_backend</RootNamespace>
+    <UserSecretsId>aspnet-mvc-226c089b-472f-4d3a-bd61-6eb9b2652be8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +13,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

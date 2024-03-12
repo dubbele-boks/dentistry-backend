@@ -1,5 +1,4 @@
 ﻿using DataAccess.Interface;
-using dentistry_backend.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess

@@ -1,4 +1,4 @@
-namespace dentistry_backend.Models
+namespace mvc.Models
 {
     public class ErrorViewModel
     {

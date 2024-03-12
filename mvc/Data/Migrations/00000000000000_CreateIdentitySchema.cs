@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using DataAccess;
 using System;
 
-namespace dentistry_backend.Data.Migrations
+namespace mvc.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
