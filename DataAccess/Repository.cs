@@ -1,5 +1,4 @@
 ﻿using DataAccess.Interface;
-using dentistry_backend.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
@@ -30,11 +29,11 @@ namespace DataAccess
 
         public IQueryable<T> Get()
         {
-           return this.dbSet.AsQueryable();
+           return dbSet.AsQueryable();
         }
 
-        public bool Add(T model) { 
-            this.dbSet.Add(model);
+        async public Task<bool> Add(T model) { 
+            await dbSet.AddAsync(model);
             return this._context.SaveChanges() > 0;
         }
 

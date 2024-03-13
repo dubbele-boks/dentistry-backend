@@ -14,6 +14,6 @@ namespace DataAccess.Interface
     {
         public IQueryable<T> Get();
         public bool Delete(T model);
-        public bool Add(T model);
+        public Task<bool> Add(T model);
     }
 }

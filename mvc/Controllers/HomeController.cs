@@ -1,8 +1,8 @@
-using dentistry_backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using mvc.Models;
 using System.Diagnostics;
 
-namespace dentistry_backend.Controllers
+namespace mvc.Controllers
 {
     public class HomeController : Controller
     {

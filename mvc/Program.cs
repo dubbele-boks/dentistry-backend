@@ -1,6 +1,8 @@
-using dentistry_backend.Data;
+using DataAccess.Interface;
+using DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using mvc.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
 
 var app = builder.Build();
 
