@@ -12,6 +12,7 @@ namespace Models
         [Key]
         public int ID { get; set; }
 
+        [Display(Name = "Title")]
         [StringLength(50, ErrorMessage = "Maximumlengte van {0} is {1} tekens")]
         public string Title { get; set; } = string.Empty;
 

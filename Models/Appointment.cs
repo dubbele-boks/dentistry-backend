@@ -24,7 +24,7 @@ namespace Models
         [Display(Name = "Behandelingen")]
         public List<Treatment> Treatments { get; set; } = new List<Treatment>();
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Display(Name = "Datum")]
         public DateTime? Date { get; set; }
 
