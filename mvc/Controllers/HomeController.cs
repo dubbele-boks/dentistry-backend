@@ -18,7 +18,21 @@ namespace mvc.Controllers
             return View();
         }
 
+        public IActionResult Team()
+        {
+            return View();
+        }
+
+        public IActionResult Vision() { 
+            return View();
+        }
+
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult Treatments()
         {
             return View();
         }
