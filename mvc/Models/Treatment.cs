@@ -10,7 +10,7 @@ namespace mvc.Models
     public class Treatment
     {
         [Key]
-        int Id {  get; set; }
+        public int Id {  get; set; }
 
         [StringLength(50)]
         public string name { get; set; }

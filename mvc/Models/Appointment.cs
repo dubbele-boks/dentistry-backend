@@ -14,9 +14,8 @@ namespace mvc.Models
         public int ID { get; set; }
 
         [Display(Name = "Tandarts")]
-        [ForeignKey("Dentist")]
         [Required]
-        public Dentist Dentist { get; set; }
+        public required Dentist Dentist { get; set; }
 
         [Display(Name = "Patient")]
         public Patient? Patient { get; set; }
