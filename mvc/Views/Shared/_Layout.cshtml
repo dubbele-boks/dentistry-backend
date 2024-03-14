@@ -4,15 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - mvc</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/mvc.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 </head>
-<body>
+<body class="mb-0">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">mvc</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Dentist</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,31 +22,134 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Team">Team</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Vision">Visie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Treatments">Behandelingen</a>
+                        </li>
+                        @* TODO add role specific links *@
+                        @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Dentist") || this.User.IsInRole("Assistant"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Agenda" asp-action="Index">Agenda</a>
+                            </li>
+                        }
+                        @if (this.User.IsInRole("Administrator") || this.User.IsInRole("Assistant"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Invoices">Invoices</a>
+                            </li>
+                        }
+                        @if (this.User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Room" asp-action="Index">Rooms</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Employee" asp-action="Index">Manage employees</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="CustomerSatisfactory">Customer satisfactory</a>
+                            </li>
+                        }
+                        @if (this.User.IsInRole("Dentist"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Stats">Stats</a>
+                            </li>
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted position-relative bg-primary-subtle">
         <div class="container">
-            &copy; 2024 - mvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row  d-flex align-items-center">
+                <div class="col-lg-6 h-50">
+                    <div class="fw-bold">Socials</div>
+                    <ul style="line-height:1.25em;">
+                        <li>
+                            <a href="#">instagram</a>
+                        </li>
+                        <li>
+                            <a href="#">facebook</a>
+                        </li>
+                        <li>
+                            <a href="#">tiktok</a>
+                        </li>
+                        <li>
+                            <a href="#">linkedin</a>
+                        </li>
+                    </ul>
+                    <div style="line-height:1.25em;">
+                        <div class="fw-bold">Contact</div>
+                        <p>tandartsen@gebitsprobleem.nl</p>
+                        <p>(+31) 06 41229032</p>
+                    </div>
+                   
+                </div>
+                <div class="col-lg-6">
+                    <div id="map"></div>
+                </div>
+
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script defer>
+        var map = L.map('map', {
+            center: [52.239080, 5.168240],
+            zoom: 15
+        });
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var marker = L.marker([52.26206970214844, 6.79853630065918]).addTo(map);
+        marker.bindPopup("<b>Tandartspraktijk</b><br>Wolter ten Catestraat 61, 7551 HX Hengelo").openPopup();
+    </script>
+    <style>
+        p {
+            margin: 0
+        }
+
+        #map {
+            width: 100% !important;
+            padding: 0;
+            margin: 10px;
+            position: absolute;
+            bottom: 0;
+            left: auto;
+            right: auto;
+            height: 20rem;
+        }
+
+        @@media only screen and (max-width: 768px) {
+            #map {
+              margin: 0px;
+         }
+        }
+    </style>
 </body>
+
 </html>
