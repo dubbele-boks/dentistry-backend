@@ -13,22 +13,31 @@ namespace mvc.Models
         [Key]
         public int Id { get; set; }
 
+
         [Display(Name = "Tandarts")]
         [Required]
+        [ForeignKey(nameof(DentistId))]
         public required Dentist Dentist { get; set; }
+
+        public string DentistId { get; set; }
+
 
         [Display(Name = "Patient")]
         [Required]
         public required Patient Patient { get; set; }
 
-        [Display(Name = "Behandelingen")]
-        public List<Treatment> Treatments { get; set; } = new List<Treatment>();
-
         [DataType(DataType.DateTime)]
         [Display(Name = "Datum")]
         public DateTime? Date { get; set; }
 
+        [Display(Name = "Kamer")]
+        public required Room Room { get; set; }
+
+        [Display(Name = "Notities")]
         public List<Note> Notes { get; set; } = new List<Note>();
+
+        [Display(Name = "Bericht")]
+        public required Feedback Feedback { get; set; }
 
     }
 }

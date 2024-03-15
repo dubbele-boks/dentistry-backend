@@ -43,6 +43,19 @@ namespace mvc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Feedback",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedback", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Room",
                 columns: table => new
                 {
@@ -54,6 +67,21 @@ namespace mvc.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Room", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Treatment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Minutes = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Treatment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,17 +290,25 @@ namespace mvc.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Appointment = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DentistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    FeedbackId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Appointment_Dentists_Appointment",
-                        column: x => x.Appointment,
+                        name: "FK_Appointment_Dentists_DentistId",
+                        column: x => x.DentistId,
                         principalTable: "Dentists",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Feedback_FeedbackId",
+                        column: x => x.FeedbackId,
+                        principalTable: "Feedback",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -281,6 +317,39 @@ namespace mvc.Migrations
                         principalTable: "Patients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentTreatment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppointmentId = table.Column<int>(type: "int", nullable: false),
+                    TreatmentId = table.Column<int>(type: "int", nullable: false),
+                    Oldprice = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentTreatment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppointmentTreatment_Appointment_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentTreatment_Treatment_TreatmentId",
+                        column: x => x.TreatmentId,
+                        principalTable: "Treatment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,36 +371,35 @@ namespace mvc.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Treatment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Minutes = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: true),
-                    AppointmentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Treatment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Treatment_Appointment_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointment",
-                        principalColumn: "Id");
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointment_DentistId",
+                table: "Appointment",
+                column: "DentistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointment_Appointment",
+                name: "IX_Appointment_FeedbackId",
                 table: "Appointment",
-                column: "Appointment");
+                column: "FeedbackId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointment_PatientId",
                 table: "Appointment",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointment_RoomId",
+                table: "Appointment",
+                column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentTreatment_AppointmentId",
+                table: "AppointmentTreatment",
+                column: "AppointmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentTreatment_TreatmentId",
+                table: "AppointmentTreatment",
+                column: "TreatmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -386,16 +454,14 @@ namespace mvc.Migrations
                 name: "IX_Patients_DentistId",
                 table: "Patients",
                 column: "DentistId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Treatment_AppointmentId",
-                table: "Treatment",
-                column: "AppointmentId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppointmentTreatment");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -418,9 +484,6 @@ namespace mvc.Migrations
                 name: "Note");
 
             migrationBuilder.DropTable(
-                name: "Room");
-
-            migrationBuilder.DropTable(
                 name: "Treatment");
 
             migrationBuilder.DropTable(
@@ -430,7 +493,13 @@ namespace mvc.Migrations
                 name: "Appointment");
 
             migrationBuilder.DropTable(
+                name: "Feedback");
+
+            migrationBuilder.DropTable(
                 name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Room");
 
             migrationBuilder.DropTable(
                 name: "Dentists");
