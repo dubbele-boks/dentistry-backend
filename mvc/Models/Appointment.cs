@@ -11,14 +11,15 @@ namespace mvc.Models
     public class Appointment
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Tandarts")]
         [Required]
         public required Dentist Dentist { get; set; }
 
         [Display(Name = "Patient")]
-        public Patient? Patient { get; set; }
+        [Required]
+        public required Patient Patient { get; set; }
 
         [Display(Name = "Behandelingen")]
         public List<Treatment> Treatments { get; set; } = new List<Treatment>();
@@ -27,7 +28,7 @@ namespace mvc.Models
         [Display(Name = "Datum")]
         public DateTime? Date { get; set; }
 
-        public List<Note> notes { get; set; } = new List<Note>();
+        public List<Note> Notes { get; set; } = new List<Note>();
 
     }
 }

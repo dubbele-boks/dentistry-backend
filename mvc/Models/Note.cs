@@ -10,7 +10,7 @@ namespace mvc.Models
     public class Note
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Title")]
         [StringLength(50, ErrorMessage = "Maximumlengte van {0} is {1} tekens")]
