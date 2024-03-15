@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mvc.Data;
 
 #nullable disable
 
-namespace mvc.Data.Migrations
+namespace mvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240314102408_applicationuser_change")]
-    partial class applicationuser_change
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,12 +159,46 @@ namespace mvc.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("mvc.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Addition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("HouseNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("mvc.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("BirthDate")
@@ -231,6 +262,8 @@ namespace mvc.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -242,6 +275,105 @@ namespace mvc.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("mvc.Models.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Appointment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PatientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Appointment");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("Appointment");
+                });
+
+            modelBuilder.Entity("mvc.Models.Note", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("Note");
+                });
+
+            modelBuilder.Entity("mvc.Models.Room", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Rented")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Roomnumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Room");
+                });
+
+            modelBuilder.Entity("mvc.Models.Treatment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Minutes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<double?>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("Treatment");
                 });
 
             modelBuilder.Entity("mvc.Models.Assistent", b =>
@@ -329,6 +461,48 @@ namespace mvc.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("mvc.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("mvc.Models.Address", "Address")
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("mvc.Models.Appointment", b =>
+                {
+                    b.HasOne("mvc.Models.Dentist", "Dentist")
+                        .WithMany("Appointments")
+                        .HasForeignKey("Appointment")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mvc.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Dentist");
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("mvc.Models.Note", b =>
+                {
+                    b.HasOne("mvc.Models.Appointment", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("AppointmentId");
+                });
+
+            modelBuilder.Entity("mvc.Models.Treatment", b =>
+                {
+                    b.HasOne("mvc.Models.Appointment", null)
+                        .WithMany("Treatments")
+                        .HasForeignKey("AppointmentId");
+                });
+
             modelBuilder.Entity("mvc.Models.Assistent", b =>
                 {
                     b.HasOne("mvc.Models.ApplicationUser", null)
@@ -350,7 +524,7 @@ namespace mvc.Data.Migrations
             modelBuilder.Entity("mvc.Models.Patient", b =>
                 {
                     b.HasOne("mvc.Models.Dentist", "Dentist")
-                        .WithMany("Patient")
+                        .WithMany("Patients")
                         .HasForeignKey("DentistId");
 
                     b.HasOne("mvc.Models.ApplicationUser", null)
@@ -362,9 +536,23 @@ namespace mvc.Data.Migrations
                     b.Navigation("Dentist");
                 });
 
+            modelBuilder.Entity("mvc.Models.Address", b =>
+                {
+                    b.Navigation("ApplicationUsers");
+                });
+
+            modelBuilder.Entity("mvc.Models.Appointment", b =>
+                {
+                    b.Navigation("Notes");
+
+                    b.Navigation("Treatments");
+                });
+
             modelBuilder.Entity("mvc.Models.Dentist", b =>
                 {
-                    b.Navigation("Patient");
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }
