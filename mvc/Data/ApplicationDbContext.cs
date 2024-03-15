@@ -14,6 +14,7 @@ namespace mvc.Data
         public DbSet<Address> Address { get; set; }
 
         public DbSet<Appointment> Appointment { get; set; }
+        public DbSet<AppointmentTreatment> AppointmentTreatment { get; set; }
 
         public DbSet<Room> Room { get; set; }
 

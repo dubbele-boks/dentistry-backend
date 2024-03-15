@@ -285,24 +285,78 @@ namespace mvc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Appointment")
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DentistId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("FeedbackId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Appointment");
+                    b.HasIndex("DentistId");
+
+                    b.HasIndex("FeedbackId");
 
                     b.HasIndex("PatientId");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("Appointment");
+                });
+
+            modelBuilder.Entity("mvc.Models.AppointmentTreatment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Oldprice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TreatmentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.ToTable("AppointmentTreatment");
+                });
+
+            modelBuilder.Entity("mvc.Models.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("mvc.Models.Note", b =>
@@ -355,9 +409,6 @@ namespace mvc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AppointmentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Minutes")
                         .HasColumnType("int");
 
@@ -370,8 +421,6 @@ namespace mvc.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
 
                     b.ToTable("Treatment");
                 });
@@ -474,7 +523,13 @@ namespace mvc.Migrations
                 {
                     b.HasOne("mvc.Models.Dentist", "Dentist")
                         .WithMany("Appointments")
-                        .HasForeignKey("Appointment")
+                        .HasForeignKey("DentistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mvc.Models.Feedback", "Feedback")
+                        .WithMany()
+                        .HasForeignKey("FeedbackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -484,22 +539,44 @@ namespace mvc.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("mvc.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Dentist");
 
+                    b.Navigation("Feedback");
+
                     b.Navigation("Patient");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("mvc.Models.AppointmentTreatment", b =>
+                {
+                    b.HasOne("mvc.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mvc.Models.Treatment", "Treatment")
+                        .WithMany()
+                        .HasForeignKey("TreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Treatment");
                 });
 
             modelBuilder.Entity("mvc.Models.Note", b =>
                 {
                     b.HasOne("mvc.Models.Appointment", null)
                         .WithMany("Notes")
-                        .HasForeignKey("AppointmentId");
-                });
-
-            modelBuilder.Entity("mvc.Models.Treatment", b =>
-                {
-                    b.HasOne("mvc.Models.Appointment", null)
-                        .WithMany("Treatments")
                         .HasForeignKey("AppointmentId");
                 });
 
@@ -544,8 +621,6 @@ namespace mvc.Migrations
             modelBuilder.Entity("mvc.Models.Appointment", b =>
                 {
                     b.Navigation("Notes");
-
-                    b.Navigation("Treatments");
                 });
 
             modelBuilder.Entity("mvc.Models.Dentist", b =>
