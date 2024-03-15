@@ -187,7 +187,7 @@ namespace mvc.Data.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.ApplicationUser", b =>
@@ -301,7 +301,7 @@ namespace mvc.Data.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointment", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Note", b =>
@@ -324,7 +324,7 @@ namespace mvc.Data.Migrations
 
                     b.HasIndex("AppointmentID");
 
-                    b.ToTable("Note");
+                    b.ToTable("Note", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Room", b =>
@@ -343,7 +343,7 @@ namespace mvc.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Room");
+                    b.ToTable("Room", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Treatment", b =>
@@ -372,21 +372,21 @@ namespace mvc.Data.Migrations
 
                     b.HasIndex("AppointmentID");
 
-                    b.ToTable("Treatment");
+                    b.ToTable("Treatment", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Assistent", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Assistents");
+                    b.ToTable("Assistents", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Dentist", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Dentists");
+                    b.ToTable("Dentists", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Patient", b =>
@@ -406,7 +406,7 @@ namespace mvc.Data.Migrations
 
                     b.HasIndex("DentistId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

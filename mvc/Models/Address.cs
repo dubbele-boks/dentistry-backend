@@ -28,5 +28,7 @@ namespace mvc.Models
 
         [Display(Name = "Toevoeging")]
         public string addition { get; set; } = string.Empty;
+
+        public List<ApplicationUser> applicationUsers { get; set; } = new List<ApplicationUser>();
     }
 }
