@@ -3,8 +3,8 @@
 *@
 @{
     ViewData["Title"] = "Team";
-    List<dynamic> dentists = ViewBag.dentists;
-    List<dynamic> assistants = ViewBag.assistants;
+    List<Dentist> dentists = ViewBag.dentists;
+    List<Assistent> assistants = ViewBag.assistants;
 }
 
 <div class="container">
@@ -13,18 +13,31 @@
         <div class="row">
             @if (index % 2 == 0)
             {
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                </div>
+                <div class="col-lg-6">
+                    <p>
+                        @dentists[index].FirstName
+                    </p>
+                </div>
 
-                <img class="col-6" href="https://chalfontdentist.co.uk/wp-content/uploads/2023/03/DSD1355-1024x683.jpg" />
-                <p>
-                    @dentists[index].name
-                </p>
+              
             }
             else
             {
-                <p>
-                    @dentists[index].name
-                </p>
-                <img class="col-6" href="https://chalfontdentist.co.uk/wp-content/uploads/2023/03/DSD1355-1024x683.jpg" />
+                <div class="col-lg-6">
+                    <p>
+                        @dentists[index].FirstName
+                    </p>
+                </div>
+
+                
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                </div>
+
+               
             }
         </div>
     }
@@ -34,18 +47,31 @@
         <div class="row">
             @if (index % 2 == 0)
             {
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                </div>
 
-                <img class="col-6" href="https://chalfontdentist.co.uk/wp-content/uploads/2023/03/DSD1355-1024x683.jpg" />
-                <p>
-                    @assistants[index].name
-                </p>
+                <div class="col-lg-6">
+                    <p>
+                        @assistants[index].FirstName
+                    </p>
+                </div>
+
+             
             }
             else
             {
-            <p>
-                @assistants[index].name
-            </p>
-                <img class="col-6" href="https://chalfontdentist.co.uk/wp-content/uploads/2023/03/DSD1355-1024x683.jpg" />
+                <div class="col-lg-6">
+                    <p>
+                        @assistants[index].FirstName
+                    </p>
+                </div>
+
+               
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                </div>
+
             }
         </div>
     }

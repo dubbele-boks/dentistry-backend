@@ -25,8 +25,8 @@ namespace mvc.Controllers
         async public Task<IActionResult> Team()
         {
 
-            ViewBag["dentists"] = await context.Dentists.ToListAsync();
-            ViewBag["assistants"] = await context.Assistents.ToListAsync();
+            ViewBag.dentists = await context.Dentists.ToListAsync();
+            ViewBag.assistants = await context.Assistents.ToListAsync();
             return View();
         }
 

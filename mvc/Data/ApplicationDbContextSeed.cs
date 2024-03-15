@@ -7,7 +7,7 @@ namespace mvc.Data
     public class ApplicationDbContextSeed
     {
         public async Task<bool> SeedEssentialsAsync(UserManager<ApplicationUser> userManager,
-                                                   RoleManager<IdentityRole> roleManager)
+                                                   RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             //Seed Roles
             await roleManager.CreateAsync(new IdentityRole("Dentist"));
@@ -16,71 +16,46 @@ namespace mvc.Data
             await roleManager.CreateAsync(new IdentityRole("ApplicationUser"));
 
 
+            var dentist = Activator.CreateInstance<Dentist>();
+            var assistent = Activator.CreateInstance<Assistent>();
+            var admin = Activator.CreateInstance<ApplicationUser>();
+            var patient = Activator.CreateInstance<Patient>();
+            dentist.FirstName = "Jansen";
+            dentist.LastName = "jansen";
+            dentist.Email = "j.driekwartslag@gmail.com";
+            dentist.EmailConfirmed = true;
+            dentist.PhoneNumberConfirmed = true;
 
-            var dentist = new Dentist
-            {
-                UserName = "Jansen",
-                FirstName = "Jansen",
-                LastName = "Driekwartslag",
-                Email= "j.driekwartslag@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-            };
-            var assistent = new Assistent
-            {
-                UserName = "Roos",
-                FirstName = "Roos",
-                LastName = "Boos",
-                Email = "r.boos@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-            };
-            var admin = new ApplicationUser
-            {
-                UserName = "admin",
-                FirstName = "admin",
-                LastName = "admin",
-                Email = "admin@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-            };
-            var patient = new Patient
-            {
-                UserName = "guus",
-                FirstName = "guus",
-                LastName = "batspak",
-                Email = "g.batspak@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Dentist = dentist,
-            };
+            assistent.FirstName = "Roos";
+            assistent.LastName = "Roos";
+            assistent.Email = "r.boos@gmail.com";
+            assistent.EmailConfirmed = true;
+            assistent.PhoneNumberConfirmed = true;
 
-            if (userManager.Users.All(u => u.Id != assistent.Id))
-            {
-                await userManager.CreateAsync(assistent, "test123");
-                await userManager.AddToRoleAsync(assistent, "Assistant");
-            }
+            admin.FirstName = "admin";
+            admin.LastName = "admin";
+            admin.Email = "admin@gmail.com";
+            admin.EmailConfirmed = true;
+            admin.PhoneNumberConfirmed = true;
 
-            if (userManager.Users.All(u => u.Id != admin.Id))
-            {
-                await userManager.CreateAsync(admin, "test123");
-                await userManager.AddToRoleAsync(admin, "Administrator");
-            }
+            patient.FirstName = "guus";
+            patient.LastName = "batspak";
+            patient.Email = "g.batspak@gmail.com";
+            patient.EmailConfirmed = true;
+            patient.PhoneNumberConfirmed = true;
+            patient.Dentist = dentist;
 
-            if (userManager.Users.All(u => u.Id != patient.Id))
-            {
-                await userManager.CreateAsync(patient, "test123");
-                await userManager.AddToRoleAsync(patient, "ApplicationUser");
-            }
+            await context.Dentists.AddAsync(dentist);
+            await context.Assistents.AddAsync(assistent);
+            await context.Patients.AddAsync(patient);
+            await context.applicationUsers.AddAsync(admin);
 
-            if (userManager.Users.All(u => u.Id != dentist.Id))
-            {
-                await userManager.CreateAsync(dentist, "test123");
-                await userManager.AddToRoleAsync(dentist, "Dentist");
-            }
+            //await userManager.AddToRoleAsync(admin, "Administrator");
+            //await userManager.AddToRoleAsync(dentist, "Dentist");
+            //await userManager.AddToRoleAsync(patient, "ApplicationUser");
+            //await userManager.AddToRoleAsync(assistent, "Assistant");
 
-
-
+            await context.SaveChangesAsync();
             return true;
         }
     }
