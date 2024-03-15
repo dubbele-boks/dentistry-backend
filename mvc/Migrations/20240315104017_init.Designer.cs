@@ -12,7 +12,7 @@ using mvc.Data;
 namespace mvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240315103515_init")]
+    [Migration("20240315104017_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -527,7 +527,7 @@ namespace mvc.Migrations
             modelBuilder.Entity("mvc.Models.Patient", b =>
                 {
                     b.HasOne("mvc.Models.Dentist", "Dentist")
-                        .WithMany("Patients")
+                        .WithMany("Patient")
                         .HasForeignKey("DentistId");
 
                     b.HasOne("mvc.Models.ApplicationUser", null)
@@ -555,7 +555,7 @@ namespace mvc.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Patients");
+                    b.Navigation("Patient");
                 });
 #pragma warning restore 612, 618
         }

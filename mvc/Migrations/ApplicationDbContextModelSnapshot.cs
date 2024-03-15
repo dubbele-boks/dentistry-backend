@@ -524,7 +524,7 @@ namespace mvc.Migrations
             modelBuilder.Entity("mvc.Models.Patient", b =>
                 {
                     b.HasOne("mvc.Models.Dentist", "Dentist")
-                        .WithMany("Patients")
+                        .WithMany("Patient")
                         .HasForeignKey("DentistId");
 
                     b.HasOne("mvc.Models.ApplicationUser", null)
@@ -552,7 +552,7 @@ namespace mvc.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Patients");
+                    b.Navigation("Patient");
                 });
 #pragma warning restore 612, 618
         }
