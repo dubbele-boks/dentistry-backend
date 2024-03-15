@@ -19,6 +19,6 @@ namespace mvc.Models
         [ForeignKey(nameof(TreatmentId))]
         public Treatment Treatment { get; set; } = null!;
 
-        public double Oldprice {  get; set; } 
+        public double OldPrice {  get; set; } 
     }
 }
