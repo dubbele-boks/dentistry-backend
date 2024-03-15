@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace mvc.Models
 { 
@@ -9,6 +10,9 @@ namespace mvc.Models
         public string MiddleName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateOnly BirthDate { get; set; }
+
+        public Address? Address { get; set; }
+
 
         // Relationships
         //public Address? Address { get; set; }

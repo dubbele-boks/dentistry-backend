@@ -11,6 +11,16 @@ namespace mvc.Data
         public DbSet<Assistent> Assistents { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<Address> Address { get; set; }
+
+        public DbSet<Appointment> Appointment { get; set; }
+
+        public DbSet<Room> Room { get; set; }
+
+        public DbSet<Treatment> Treatment { get; set; }
+
+        public DbSet<Note> Note { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
