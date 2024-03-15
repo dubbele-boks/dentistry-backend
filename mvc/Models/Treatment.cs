@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,15 @@ namespace mvc.Models
         [Key]
         public int Id {  get; set; }
 
+        [DisplayName("Naam")]
         [StringLength(50)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
+        [DisplayName("Minuten")]
         [Length(1, 50, ErrorMessage = "")]
-        public int minutes {  get; set; }
+        public int Minutes {  get; set; }
 
-        public Double? price {  get; set; }
+        [DisplayName("Prijs")]
+        public Double? Price {  get; set; }
     }
 }
