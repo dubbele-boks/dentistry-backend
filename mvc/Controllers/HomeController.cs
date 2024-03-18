@@ -1,4 +1,7 @@
+using DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using mvc.Data;
 using mvc.Models;
 using System.Diagnostics;
 
@@ -7,9 +10,10 @@ namespace mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private ApplicationDbContext context;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext _context)
         {
+            context = _context;
             _logger = logger;
         }
 
@@ -18,8 +22,25 @@ namespace mvc.Controllers
             return View();
         }
 
+        async public Task<IActionResult> Team()
+        {
+            ViewBag.dentists = await context.Dentists.ToListAsync();
+            ViewBag.assistants = await context.Assistents.ToListAsync();
+            return View();
+        }
+
+        public IActionResult Vision() { 
+            return View();
+        }
+
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        async public Task<IActionResult> Treatments()
+        {
+            ViewBag.treatments = await context.Treatment.ToListAsync();
             return View();
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using mvc.Models;
 
@@ -31,5 +32,6 @@ namespace mvc.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ApplicationUser>().UseTptMappingStrategy();
         }
+        public DbSet<mvc.Models.Feedback> Feedback { get; set; } = default!;
     }
 }

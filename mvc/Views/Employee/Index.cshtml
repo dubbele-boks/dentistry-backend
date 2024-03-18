@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Index";
+
+    List<Dentist> dentists = ViewBag.dentists;
+    List<Assistent> assistent = ViewBag.assistents;
+}
+<div class="container row">
+<div class="col-6">
+
+<h1>Dentist</h1>
+
+<p>
+            <a asp-action="CreateDentist">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Naam
+            </th>
+            <th>
+                        TODO
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Dentist item in dentists)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.MiddleName) @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                            TODO
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+</div>
+
+<div class="col-6">
+
+    <h1>Assistent</h1>
+
+    <p>
+        <a asp-action="CreateAssistent">Create New</a>
+    </p>
+    <table class="table col-6">
+        <thead>
+            <tr>
+                <th>
+                    Naam
+                </th>
+                <th>
+                        TODO
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Assistent item in assistent)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.MiddleName) @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        TODO
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    </div>
+</div>

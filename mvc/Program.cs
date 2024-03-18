@@ -13,13 +13,37 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+//    .AddDefaultUI()
+//    .AddDefaultTokenProviders()
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped(typeof(ApplicationDbContextSeed), typeof(ApplicationDbContextSeed));
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 
 var app = builder.Build();
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+    await SeedData(app);
+
+async Task SeedData(IHost app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using (var scope = scopedFactory?.CreateScope())
+    {
+        var service = scope?.ServiceProvider.GetService<ApplicationDbContextSeed>();
+        var userManager = scope?.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = scope?.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var context = scope?.ServiceProvider .GetRequiredService<ApplicationDbContext>();
+        await service.SeedEssentialsAsync(userManager!, roleManager!, context);
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Team";
+    List<Dentist> dentists = ViewBag.dentists;
+    List<Assistent> assistants = ViewBag.assistants;
+}
+
+<div class="container">
+    @for (var index = 0; index < dentists.Count; index++)
+    {
+        <div class="row">
+            @if (index % 2 == 0)
+            {
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                </div>
+                <div class="col-lg-6">
+                    <p>
+                        @dentists[index].FirstName
+                    </p>
+                </div>
+
+              
+            }
+            else
+            {
+                <div class="col-lg-6">
+                    <p>
+                        @dentists[index].FirstName
+                    </p>
+                </div>
+
+                
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                </div>
+
+               
+            }
+        </div>
+    }
+
+    @for (var index = 0; index < assistants.Count; index++)
+    {
+        <div class="row">
+            @if (index % 2 == 0)
+            {
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                </div>
+
+                <div class="col-lg-6">
+                    <p>
+                        @assistants[index].FirstName
+                    </p>
+                </div>
+
+             
+            }
+            else
+            {
+                <div class="col-lg-6">
+                    <p>
+                        @assistants[index].FirstName
+                    </p>
+                </div>
+
+               
+                <div class="col-lg-6">
+                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                </div>
+
+            }
+        </div>
+    }
+</div>
+

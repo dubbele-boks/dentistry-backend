@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mvc.Data;
 
@@ -11,9 +12,11 @@ using mvc.Data;
 namespace mvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317202324_nullable_middlename")]
+    partial class nullable_middlename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,7 +190,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("mvc.Models.ApplicationUser", b =>
@@ -311,7 +314,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Appointment", (string)null);
+                    b.ToTable("Appointment");
                 });
 
             modelBuilder.Entity("mvc.Models.AppointmentTreatment", b =>
@@ -337,7 +340,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("AppointmentTreatment", (string)null);
+                    b.ToTable("AppointmentTreatment");
                 });
 
             modelBuilder.Entity("mvc.Models.Feedback", b =>
@@ -355,7 +358,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Feedback", (string)null);
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("mvc.Models.Note", b =>
@@ -378,7 +381,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("Note", (string)null);
+                    b.ToTable("Note");
                 });
 
             modelBuilder.Entity("mvc.Models.Room", b =>
@@ -397,7 +400,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Room", (string)null);
+                    b.ToTable("Room");
                 });
 
             modelBuilder.Entity("mvc.Models.Treatment", b =>
@@ -421,21 +424,21 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Treatment", (string)null);
+                    b.ToTable("Treatment");
                 });
 
             modelBuilder.Entity("mvc.Models.Assistent", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Assistents", (string)null);
+                    b.ToTable("Assistents");
                 });
 
             modelBuilder.Entity("mvc.Models.Dentist", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Dentists", (string)null);
+                    b.ToTable("Dentists");
                 });
 
             modelBuilder.Entity("mvc.Models.Patient", b =>
@@ -455,7 +458,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("DentistId");
 
-                    b.ToTable("Patients", (string)null);
+                    b.ToTable("Patients");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
