@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mvc.Data;
@@ -10,10 +11,12 @@ namespace mvc.Controllers
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager;
 
-        public EmployeeController(ApplicationDbContext context)
+        public EmployeeController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: EmployeesController
@@ -51,6 +54,7 @@ namespace mvc.Controllers
                 Dentist test = new Dentist() { FirstName = dentist.FirstName, MiddleName = dentist.MiddleName, LastName = dentist.LastName, Email = dentist.Email, PasswordHash = dentist.PasswordHash, PhoneNumber = dentist.PhoneNumber, BirthDate = dentist.BirthDate };
                 await _context.Dentists.AddAsync(test);
                 await _context.SaveChangesAsync();
+                await _userManager.AddToRoleAsync(test, "Dentist");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -69,6 +73,7 @@ namespace mvc.Controllers
                 Assistent test = new Assistent() { FirstName = dentist.FirstName, MiddleName = dentist.MiddleName, LastName = dentist.LastName, Email = dentist.Email, PasswordHash = dentist.PasswordHash, PhoneNumber = dentist.PhoneNumber, BirthDate = dentist.BirthDate };
                 await _context.Assistents.AddAsync(test);
                 await _context.SaveChangesAsync();
+                await _userManager.AddToRoleAsync(test, "Assistant");
                 return RedirectToAction(nameof(Index));
             }
             catch
