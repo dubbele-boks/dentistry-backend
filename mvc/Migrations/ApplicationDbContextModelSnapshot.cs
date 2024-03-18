@@ -187,7 +187,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.ApplicationUser", b =>
@@ -298,11 +298,7 @@ namespace mvc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoomId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoomId1")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -313,9 +309,9 @@ namespace mvc.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.HasIndex("RoomId1");
+                    b.HasIndex("RoomId");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("Appointment", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.AppointmentTreatment", b =>
@@ -341,7 +337,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("AppointmentTreatment");
+                    b.ToTable("AppointmentTreatment", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Feedback", b =>
@@ -359,7 +355,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Feedback");
+                    b.ToTable("Feedback", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Note", b =>
@@ -382,7 +378,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("Note");
+                    b.ToTable("Note", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Room", b =>
@@ -401,7 +397,7 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Room");
+                    b.ToTable("Room", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Treatment", b =>
@@ -425,21 +421,21 @@ namespace mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Treatment");
+                    b.ToTable("Treatment", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Assistent", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Assistents");
+                    b.ToTable("Assistents", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Dentist", b =>
                 {
                     b.HasBaseType("mvc.Models.ApplicationUser");
 
-                    b.ToTable("Dentists");
+                    b.ToTable("Dentists", (string)null);
                 });
 
             modelBuilder.Entity("mvc.Models.Patient", b =>
@@ -459,7 +455,7 @@ namespace mvc.Migrations
 
                     b.HasIndex("DentistId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -544,7 +540,7 @@ namespace mvc.Migrations
 
                     b.HasOne("mvc.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId1")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
