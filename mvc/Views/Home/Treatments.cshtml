@@ -2,4 +2,31 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Behandelingen";
+    List<Treatment> treatments = ViewBag.treatments;
 }
+<div class="container">
+        <div class="table-responsive">
+            <table class="table">
+                <caption>List of users</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Behandeling</th>
+                        <th scope="col">Tijd (in minuten)</th>
+                        <th scope="col">Kosten (in euros)</th>
+                    </tr>
+                </thead>
+            @for (var index = 0; index < treatments.Count; index++)
+            {
+                <tbody>
+                    <tr>
+                        <td>@treatments[index].Name</td>
+                        <td>@treatments[index].Minutes</td>
+                        <td>@treatments[index].Price</td>
+                    </tr>
+                </tbody>
+
+            }
+            </table>
+        </div>
+</div>

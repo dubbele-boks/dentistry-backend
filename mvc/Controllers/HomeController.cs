@@ -24,7 +24,6 @@ namespace mvc.Controllers
 
         async public Task<IActionResult> Team()
         {
-
             ViewBag.dentists = await context.Dentists.ToListAsync();
             ViewBag.assistants = await context.Assistents.ToListAsync();
             return View();
@@ -39,8 +38,9 @@ namespace mvc.Controllers
             return View();
         }
 
-        public IActionResult Treatments()
+        async public Task<IActionResult> Treatments()
         {
+            ViewBag.treatments = await context.Treatment.ToListAsync();
             return View();
         }
 

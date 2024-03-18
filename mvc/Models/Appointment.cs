@@ -25,19 +25,35 @@ namespace mvc.Models
         [Display(Name = "Patient")]
         [Required]
         public required Patient Patient { get; set; }
+        public string PatientId { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Datum")]
         public DateTime? Date { get; set; }
 
+
+
+        //[Display(Name = "Kamer")]
+        //public required Room Room { get; set; }
+        //[Display(Name = "Bericht")]
+        //public required Feedback Feedback { get; set; }
+
         [Display(Name = "Kamer")]
-        public required Room Room { get; set; }
+        [Required]
+        [ForeignKey(nameof(Room))]
+        public int RoomId { get; set; }
+        public Room Room { get; set; }
+
+        [Display(Name = "Feedback")]
+        [Required]
+        [ForeignKey(nameof(Feedback))]
+        public int FeedbackId { get; set; }
+        public Feedback Feedback { get; set; }
+
+
+
 
         [Display(Name = "Notities")]
         public List<Note> Notes { get; set; } = new List<Note>();
-
-        [Display(Name = "Bericht")]
-        public required Feedback Feedback { get; set; }
-
     }
 }

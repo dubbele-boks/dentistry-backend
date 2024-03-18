@@ -18,7 +18,6 @@ namespace mvc.Models
         public string Name { get; set; }
 
         [DisplayName("Minuten")]
-        [Length(1, 50, ErrorMessage = "")]
         public int Minutes {  get; set; }
 
         [DisplayName("Prijs")]
