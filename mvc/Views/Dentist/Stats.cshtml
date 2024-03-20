@@ -4,9 +4,29 @@
 @{
     ViewData["Title"] = "stats";
 }
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Operatie
+            </th>
+            <th>
+                Aantal
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in ViewBag.stats)
+        {        
+                <tr>
+                    <td>
+                        @group.name
+                    </td>
+                    <td>
+                        @group.count
+                    </td>
+                </tr>
 
-@foreach(var group in ViewBag.stats) { 
-    @foreach(AppointmentTreatment item in group) { 
-        @item.OldPrice
-    }
-}
+        }
+    </tbody>
+</table>

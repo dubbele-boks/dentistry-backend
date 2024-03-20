@@ -21,6 +21,7 @@ namespace mvc.Controllers
                 .ThenInclude(a => a.Dentist)
                 .Where(x => x.Appointment.DentistId == userId)
                 .GroupBy(x => x.Treatment.Name)
+                .Select(x => new { name = x.Key, count = x.Count() })
                 .ToListAsync();
 
 
