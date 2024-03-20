@@ -3,30 +3,37 @@
     List<Treatment> treatments = ViewBag.treatments;
 }
 
-<div class="container">
-    <div class="table-responsive">
-        <table class="table">
-            <caption>List of users</caption>
-            <thead>
-                <tr>
-                    <th scope="col">Behandeling</th>
-                    <th scope="col">Tijd (in minuten)</th>
-                    <th scope="col">Kosten (in euros)</th>
-                    <th scope="col">Datum</th>
-
-                </tr>
-            </thead>
-            @for (var index = 0; index < treatments.Count; index++)
-            {
-                <tbody>
+@if (treatments != null || ViewBag.treatments != null)
+{
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table">
+                <caption>List of users</caption>
+                <thead>
                     <tr>
-                        <td>@treatments[index].Name</td>
-                        <td>@treatments[index].Minutes</td>
-                        <td>@treatments[index].Price</td>
-                        <td>@ViewBag.appointmentDates[index]</td>
+                        <th scope="col">Behandeling</th>
+                        <th scope="col">Tijd (in minuten)</th>
+                        <th scope="col">Kosten (in euros)</th>
+                        <th scope="col">Datum</th>
+
                     </tr>
-                </tbody>
-            }
-        </table>
+                </thead>
+                @for (var index = 0; index < treatments.Count; index++)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@treatments[index].Name</td>
+                            <td>@treatments[index].Minutes</td>
+                            <td>@treatments[index].Price</td>
+                            <td>@ViewBag.appointmentDates[index]</td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
     </div>
-</div>
+    </div>
+
+} else
+{
+    <p>U heeft nog geen behandelingen gehad.</p>
+}
