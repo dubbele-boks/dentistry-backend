@@ -5,4 +5,8 @@
     ViewData["Title"] = "stats";
 }
 
-@ViewBag["stats"]
+@foreach(var group in ViewBag.stats) { 
+    @foreach(AppointmentTreatment item in group) { 
+        @item.OldPrice
+    }
+}

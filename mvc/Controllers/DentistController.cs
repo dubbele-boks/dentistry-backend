@@ -20,7 +20,8 @@ namespace mvc.Controllers
                 .Include(x => x.Appointment)
                 .ThenInclude(a => a.Dentist)
                 .Where(x => x.Appointment.DentistId == userId)
-                .GroupBy(x => x.Treatment.Name).ToListAsync();
+                .GroupBy(x => x.Treatment.Name)
+                .ToListAsync();
 
 
             ViewBag.stats = stats;

@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="calendar"></div>
+@* TODO add on load so previous events will be loaded *@
+
+<dialog id="formfield">
+    <form asp-action="Create" asp-controller="Appointment" method="post" class="container-fluid">
+            <h1>Afspraak maken</h1>
+            <hr />
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="datetime" name="date" value="" id="date" readonly />
+                        <label for="date">Datum</label>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="form-group">
+                        <label class="control-label">Tandarts</label>
+                        <select name="Dentist" class="form-control" asp-items="ViewBag.DentistId"></select>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="form-group">
+                        <label class="control-label">Patient</label>
+                        <select name="Patient" class="form-control" asp-items="ViewBag.PatientId"></select>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="form-group">
+                        <label class="control-label">Kamer nummer</label>
+                        <select name="Room" class="form-control" asp-items="ViewBag.RoomId"></select>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-2">
+                    <div class="form-group">
+                        <label class="control-label">Behandelingen</label>
+                        <select name="Treatments" class="form-control" asp-items="ViewBag.Treatments" multiple></select>
+                    </div>
+                </div>
+                <hr />
+                <div class="row justify-content-end">
+                    <div class="col-lg-4 d-flex">
+                        <button id="close" class="btn btn-danger me-2">Close</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+    </form>
+</dialog>
+
+<style>
+    #formfield {
+        border: hidden;
+        border-radius: 15px;
+        height: 45%;
+    }
+
+</style>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.11/index.global.min.js'></script>
+<script defer>
+    const dialog = document.querySelector("dialog");
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            views: {
+                dayGridMonth: {
+                    titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
+                },
+                timeGrid: {
+                    // options apply to timeGridWeek and timeGridDay views
+                },
+            },
+            initialView: 'dayGridMonth'
+        });
+        calendar.render();
+
+        calendar.on("dateClick", (vars) => {
+            if (calendar.view.type === "dayGridMonth") {
+                calendar.changeView('timeGridDay', vars.date);
+                document.querySelector("a.fc-col-header-cell-cushion").addEventListener("click", () => {
+                    calendar.changeView('dayGridMonth');
+                })
+            } else {
+                dialog.showModal();
+                console.log(vars);
+                document.getElementById("date").value = vars.dateStr;
+            }
+        });
+
+    });
+
+    document.getElementById("close").addEventListener("click", (ev) => {
+        ev.preventDefault();
+        dialog.close();
+    });
+</script>

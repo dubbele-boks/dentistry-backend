@@ -22,8 +22,33 @@ namespace mvc.Controllers
         // GET: Appointment
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointment.Include(a => a.Dentist);
-            return View(await applicationDbContext.ToListAsync());
+            var patientNames = _context.Patients.Select(p => new {
+                Id = p.Id,
+                FullName = p.FirstName + " " + p.MiddleName + " " + p.LastName
+            }).ToList();
+            var DentistNames = _context.Dentists.Select(p => new {
+                Id = p.Id,
+                FullName = p.FirstName + " " + p.MiddleName + " " + p.LastName
+            }).ToList();
+            var Room = _context.Room.Where(e => e.Rented).Select(p => new {
+                Id = p.Id,
+                RoomNumber = p.Roomnumber
+            }).ToList();
+            var Treatment = _context.Treatment.Select(p => new { 
+                Id = p.Id,
+                Name = p.Name,
+            }).ToList();
+
+            ViewData["PatientId"] = new SelectList(patientNames, "Id", "FullName");
+            ViewData["DentistId"] = new SelectList(DentistNames, "Id", "FullName");
+            ViewData["RoomId"] = new SelectList(Room, "Id", "RoomNumber");
+            ViewData["Treatments"] = new SelectList(Treatment, "Id", "Name");
+
+            if (User.IsInRole("Assistant")) {
+                return View("Assistant");
+            } else { 
+                return View("Dentist");
+            }
         }
 
         // GET: Appointment/Details/5
@@ -45,42 +70,34 @@ namespace mvc.Controllers
             return View(appointment);
         }
 
-        // GET: Appointment/Create
-        public IActionResult Create()
-        {
-            var patientNames = _context.Patients.Select(p => new {
-                Id = p.Id,
-                FullName = p.FirstName + " " + p.MiddleName + " " + p.LastName
-            }).ToList();
-            var DentistNames = _context.Dentists.Select(p => new {
-                Id = p.Id,
-                FullName = p.FirstName + " " + p.MiddleName + " " + p.LastName
-            }).ToList();
-            var Room = _context.Room.Where(e => e.Rented).Select(p => new {
-                Id = p.Id,
-                RoomNumber = p.Roomnumber
-            }).ToList();
-
-            ViewData["PatientId"] = new SelectList(patientNames, "Id", "FullName");
-            ViewData["DentistId"] = new SelectList(DentistNames, "Id", "FullName");
-            ViewData["RoomId"] = new SelectList(Room, "Id", "RoomNumber");
-
-            //RoomId
-            return View();
-        }
-
+      
         // POST: Appointment/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DentistId,PatientId,Date,RoomId")] Appointment appointment)
+        public async Task<IActionResult> Create(List<int> Treatments, int room, string patient, string dentist, string date)
         {
-            if (!ModelState.IsValid)
+            Appointment app = new Appointment
             {
-                return RedirectToAction(nameof(Create));
+                Dentist = _context.Dentists.Find(dentist),
+                Patient = _context.Patients.Find(patient),
+                Date = DateTime.Parse(date),
+                Room = _context.Room.Find(room),
+            };
+            await _context.Appointment.AddAsync(app);
+
+            foreach (int treatment in Treatments) {
+                Treatment treat = _context.Treatment.Find(treatment)!;
+                AppointmentTreatment apt = new AppointmentTreatment
+                {
+                    Appointment = app,
+                    Treatment = treat,
+                    OldPrice = (double)treat.Price,
+                };
+                await _context.AppointmentTreatment.AddAsync(apt);
             }
-            _context.Add(appointment);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
