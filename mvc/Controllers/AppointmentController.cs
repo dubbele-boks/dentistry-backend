@@ -55,7 +55,7 @@ namespace mvc.Controllers
                     .ThenInclude(a => a.Dentist)
                     .Include(p => p.Appointment)
                     .ThenInclude(a => a.Patient)
-                     .Include(p => p.Appointment)
+                    .Include(p => p.Appointment)
                     .ThenInclude(a => a.Room)
                     .Where(x => x.Appointment.DentistId == userId )
                     .ToListAsync();
@@ -75,7 +75,7 @@ namespace mvc.Controllers
             appointment.Notes.Add(note);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", AppointmentId);
+            return RedirectToAction("Details", new { id = AppointmentId });
         }
 
         // GET: Appointment/Details/5
@@ -86,9 +86,17 @@ namespace mvc.Controllers
                 return NotFound();
             }
 
-            var appointment = await _context.Appointment
-                .Include(a => a.Dentist)
-                .FirstOrDefaultAsync(m => m.Id == id);
+           var appointment = await _context.AppointmentTreatment
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Dentist)
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Patient)
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Room)
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Notes)
+                    .FirstOrDefaultAsync(m => m.Appointment.Id == id);
+
             if (appointment == null)
             {
                 return NotFound();

@@ -1,4 +1,4 @@
-﻿@model mvc.Models.Appointment
+﻿@model mvc.Models.AppointmentTreatment
 
 @{
     ViewData["Title"] = "Details";
@@ -10,17 +10,62 @@
     <h4>Appointment</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dentist)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Dentist.FirstName)    @Html.DisplayNameFor(model => model.Appointment.Dentist.LastName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dentist.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Dentist.FirstName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Date)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Patient)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Patient.FirstName) @Html.DisplayFor(model => model.Appointment.Patient.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Room.Roomnumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.Room.Roomnumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.Notes)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beschrijving</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Note note in Model.Appointment.Notes)
+                    {
+                        <tr>
+                            <td>@note.Title</td>
+                            <td>@note.Description</td>
+                            <td>
+                                <form method="get" asp-controller="Notes" asp-action="Delete">
+                                    <input type="hidden" name="id" value="@note.Id" />
+                                    <button>Delete</button>
+                                </form>
+                                <form method="get" asp-controller="Notes" asp-action="Edit">
+                                    <input type="hidden" name="id" value="@note.Id" />
+                                    <button>Edit</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </dd>
     </dl>
 </div>
