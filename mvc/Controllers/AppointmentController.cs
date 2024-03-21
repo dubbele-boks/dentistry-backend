@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,9 +47,35 @@ namespace mvc.Controllers
 
             if (User.IsInRole("Assistant")) {
                 return View("Assistant");
-            } else { 
+            } else {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                ViewBag.appointments = await _context.AppointmentTreatment
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Dentist)
+                    .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Patient)
+                     .Include(p => p.Appointment)
+                    .ThenInclude(a => a.Room)
+                    .Where(x => x.Appointment.DentistId == userId )
+                    .ToListAsync();
                 return View("Dentist");
             }
+        }
+
+        public async Task<IActionResult> LinkNote(int AppointmentId, string title, string description) {
+            Note note = new Note { 
+                Title = title,
+                Description = description
+            };
+
+            await _context.Note.AddAsync(note);
+
+            Appointment appointment = _context.Appointment.Find(AppointmentId);
+            appointment.Notes.Add(note);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", AppointmentId);
         }
 
         // GET: Appointment/Details/5
