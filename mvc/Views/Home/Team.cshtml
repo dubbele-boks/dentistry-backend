@@ -7,18 +7,20 @@
     List<Assistent> assistants = ViewBag.assistants;
 }
 
+
 <div class="container">
     @for (var index = 0; index < dentists.Count; index++)
     {
-        <div class="row">
-            @if (index % 2 == 0)
+        <div class="row d-flex align-content-center align-items-center">
+            @if (index % 2 == 1)
             {
                 <div class="col-lg-6">
-                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                    <img  src="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
                 </div>
                 <div class="col-lg-6">
                     <p>
-                        @dentists[index].FirstName
+                        @(dentists[index].FirstName + " " + dentists[index].LastName)<br />
+                        <a href="mailto:@dentists[index].Email">@dentists[index].Email</a>    
                     </p>
                 </div>
 
@@ -28,13 +30,14 @@
             {
                 <div class="col-lg-6">
                     <p>
-                        @dentists[index].FirstName
+                        @(dentists[index].FirstName + " " + dentists[index].LastName)<br />
+                        <a href="mailto:@dentists[index].Email">@dentists[index].Email</a>
                     </p>
                 </div>
 
                 
                 <div class="col-lg-6">
-                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                    <img src="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
                 </div>
 
                
@@ -44,16 +47,17 @@
 
     @for (var index = 0; index < assistants.Count; index++)
     {
-        <div class="row">
+        <div class="row d-flex align-content-center align-items-center">
             @if (index % 2 == 0)
             {
                 <div class="col-lg-6">
-                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image" style="height: 20rem; width: 20rem;" />
+                    <img src="https://fixapa.com/wp-content/uploads/2019/06/1_bqr9h5fVqHdlGmYTS2XMTQ.png"  alt="image" style="height: 20rem; width: 20rem;" />
                 </div>
 
                 <div class="col-lg-6">
                     <p>
-                        @assistants[index].FirstName
+                        @(assistants[index].FirstName + " " + assistants[index].LastName) <br />
+                        <a href="mailto:@assistants[index].Email">@assistants[index].Email</a>
                     </p>
                 </div>
 
@@ -63,13 +67,14 @@
             {
                 <div class="col-lg-6">
                     <p>
-                        @assistants[index].FirstName
+                        @(assistants[index].FirstName + " " + assistants[index].LastName) <br />
+                        <a href="mailto:@assistants[index].Email">@assistants[index].Email</a>
                     </p>
                 </div>
 
                
                 <div class="col-lg-6">
-                    <img href="https://thedentistsdorridge.co.uk/wp-content/uploads/2019/11/be_a_denist.jpg"  alt="image"  style="height: 20rem; width: 20rem;" />
+                    <img src="https://fixapa.com/wp-content/uploads/2019/06/1_bqr9h5fVqHdlGmYTS2XMTQ.png"  alt="image"  style="height: 20rem; width: 20rem;" />
                 </div>
 
             }

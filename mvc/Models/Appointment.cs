@@ -45,10 +45,9 @@ namespace mvc.Models
         public Room Room { get; set; }
 
         [Display(Name = "Feedback")]
-        [Required]
         [ForeignKey(nameof(Feedback))]
-        public int FeedbackId { get; set; }
-        public Feedback Feedback { get; set; }
+        public int? FeedbackId { get; set; }
+        public Feedback? Feedback { get; set; }
 
 
 

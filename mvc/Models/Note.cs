@@ -16,6 +16,6 @@ namespace mvc.Models
         [StringLength(50, ErrorMessage = "Maximumlengte van {0} is {1} tekens")]
         public string Title { get; set; } = string.Empty;
 
-
+        public string Description { get; set; } = string.Empty;
     }
 }

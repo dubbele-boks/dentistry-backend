@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "stats";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Operatie
+            </th>
+            <th>
+                Aantal
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in ViewBag.stats)
+        {        
+                <tr>
+                    <td>
+                        @group.name
+                    </td>
+                    <td>
+                        @group.count
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
